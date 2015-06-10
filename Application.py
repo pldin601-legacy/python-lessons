@@ -1,21 +1,6 @@
-__author__ = 'roman'
+dbl = lambda x: x << 1  # x * 2
+hlf = lambda x: x >> 1  # x / 2
 
-from User import User
+f = lambda *a: map(dbl, list(a[:hlf(len(a))])) + map(hlf, list(a[hlf(len(a)):]))
 
-me = User("Roman", 29)
-me.set_money(100)
-me.set_oranges(30)
-
-you = User("Rostik", 28)
-you.set_oranges(100)
-you.set_money(0)
-
-print me.info()
-print you.info()
-
-you.sell_oranges(me, 10, 1)
-me.sell_oranges(you, 5, 2)
-
-print me.info()
-print you.info()
-
+print(f(2, 4, 6, 8, 20, 40, 60, 80))
