@@ -48,10 +48,7 @@ def calories(items: list) -> int:
 # Generates combinations of available food
 def combine(items: list, other: list, threshold: int):
     result = list()
-
-    if len(items) == 0:
-        result.append(other)
-
+    result.append(other)
     for char in items:
         rest = ignore(items, char)
         new = other + list([char])
@@ -60,7 +57,6 @@ def combine(items: list, other: list, threshold: int):
             return result
         else:
             result += combine(rest, new, threshold)
-
     return result
 
 
