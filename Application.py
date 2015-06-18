@@ -1,6 +1,5 @@
 import time
 
-
 # Class that represents food object
 class Product(object):
     def __init__(self, name, calories):
@@ -19,11 +18,76 @@ class Product(object):
     def __repr__(self):
         return self.__str__()
 
+
+# Class that represents shelf on a kitchen
+class Shelf(object):
+    def __init__(self):
+        self.__list = list()
+
+    def __iadd__(self, other):
+        self.__list.append(other)
+        return self
+
+    def __getitem__(self, item):
+        return self.__list.__getitem__(item)
+
+    def calories(self):
+        return sum(map(lambda x: x.calories(), self.__list))
+
+    def products(self):
+        return self.__list[::]
+
+    def __str__(self):
+        return str(self.__list)
+
+    def __repr__(self):
+        return self.__str__()
+
+    def __len__(self):
+        return len(self.__list)
+
+
+# Class that represents kitchen object
+class Kitchen(object):
+    def __init__(self, size=100, *items):
+        self.__size = size
+        self.__shelves = list()
+        for item in items:
+            self += item
+
+    def __iadd__(self, other: Product):
+        for shelf in self.__shelves:
+            if other.calories() + shelf.calories() <= self.__size:
+                shelf += other
+                return self
+
+        s = Shelf()
+        s += other
+
+        self.__shelves.append(s)
+        self.__shelves.sort(key=lambda x: x.calories(), reverse=True)
+
+        return self
+
+    def __len__(self):
+        return len(self.__shelves)
+
+    def fetch(self):
+        if len(self.__shelves):
+            return self.__shelves.pop(0)
+
+    def __str__(self):
+        return str(self.__shelves)
+
+    def __repr__(self):
+        return self.__str__()
+
+
 # Maximum calories per eating
 threshold = 100
 
 # Available meal on a kitchen
-products = [
+kitchen = Kitchen(threshold,
     Product("Beer", 31), Product("Chocolate", 45),
     Product("Wine", 11), Product("Pizza", 55),
     Product("Sushi", 54), Product("Tea", 10),
@@ -44,65 +108,15 @@ products = [
     Product("Meat", 89), Product("Apple", 42),
     Product("Cherry", 38), Product("Cheese", 29),
     Product("Water", 1), Product("Bread", 42)
-]
-
-
-# Copy list to other list excepting object
-def ignore(items: list, i) -> list:
-    return list(item for item in items if i != item)
-
-
-# Count calories in food list
-def calories(items: list) -> int:
-    return sum(map(lambda x: x.calories(), items))
-
-
-# Generates combinations of available food
-def combine(items: list, other: list, threshold: int):
-    result = list()
-    result.append(other)
-    for char in items:
-        rest = ignore(items, char)
-        new = other + list([char])
-        if calories(new) > threshold:
-            result.append(other)
-            return result
-        else:
-            result += combine(rest, new, threshold)
-    return result
-
-
-# New combination algorithm
-def combine2(items: list, predicate: callable) -> list:
-    if len(items) == 1:
-        yield items
-
-    for i, item in enumerate(items):
-        # yield list([item])
-        rest = ignore(items, item)
-        for combos in combine2(rest, predicate):
-            new = combos + list([item])
-            if predicate(new) is True:
-                yield new
-
-
-# Fetches portion of meal from kitchen
-def fetch(items: list) -> list:
-    combinations = combine(items, list(), threshold)
-    combinations.sort(key=lambda x: calories(x), reverse=True)
-    combination = (lambda x: x[0] if x else None)(combinations)
-    for item in combination:
-        items.remove(item)
-    return combination
-
+)
 
 # Business logic
 while True:
-    if len(products) == 0:
+    if len(kitchen) == 0:
         print("The kitchen is empty. Nothing more to eat. Bye!")
         break
 
-    print("Food on a kitchen: ", products)
+    print("Food on a kitchen: ", kitchen)
 
     ans = input("Do you want some food? (y/n)").lower()
 
@@ -111,12 +125,12 @@ while True:
         break
 
     start = time.time()
-    eat = fetch(products)
+    eat = kitchen.fetch()
     end = time.time()
 
     if eat is not None:
-        print("You ate: ", eat)
-        print("Total calories: ", calories(eat))
+        print("You ate: ", eat.products())
+        print("Total calories: ", eat.calories())
         print("Time: ", str(end - start))
 
     print("")
