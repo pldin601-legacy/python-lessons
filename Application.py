@@ -1,3 +1,6 @@
+import time
+
+
 # Class that represents food object
 class Product(object):
     def __init__(self, name, calories):
@@ -25,13 +28,29 @@ products = [
     Product("Beer", 31), Product("Chocolate", 45),
     Product("Wine", 11), Product("Pizza", 55),
     Product("Sushi", 54), Product("Tea", 10),
-    Product("Cake", 35), Product("Ice", 63),
-    Product("Orange", 5), Product("Snickers", 80),
-    Product("Meat", 89), Product("Apple", 42),
-    Product("Orange", 5), Product("Snickers", 80),
-    Product("Meat", 89), Product("Apple", 42),
-    Product("Cherry", 38), Product("Cheese", 29),
-    Product("Water", 1), Product("Bread", 42)
+    # Product("Cake", 35), Product("Ice", 63),
+    # Product("Orange", 5), Product("Snickers", 80),
+    # Product("Meat", 89), Product("Apple", 42),
+    # Product("Orange", 5), Product("Snickers", 80),
+    # Product("Meat", 89), Product("Apple", 42),
+    # Product("Cherry", 38), Product("Cheese", 29),
+    # Product("Wine", 11), Product("Pizza", 55),
+    # Product("Sushi", 54), Product("Tea", 10),
+    # Product("Cake", 35), Product("Ice", 63),
+    # Product("Orange", 5), Product("Snickers", 80),
+    # Product("Meat", 89), Product("Apple", 42),
+    # Product("Orange", 5), Product("Snickers", 80),
+    # Product("Meat", 89), Product("Apple", 42),
+    # Product("Cherry", 38), Product("Cheese", 29),
+    # Product("Wine", 11), Product("Pizza", 55),
+    # Product("Sushi", 54), Product("Tea", 10),
+    # Product("Cake", 35), Product("Ice", 63),
+    # Product("Orange", 5), Product("Snickers", 80),
+    # Product("Meat", 89), Product("Apple", 42),
+    # Product("Orange", 5), Product("Snickers", 80),
+    # Product("Meat", 89), Product("Apple", 42),
+    # Product("Cherry", 38), Product("Cheese", 29),
+    # Product("Water", 1), Product("Bread", 42)
 ]
 
 
@@ -59,10 +78,14 @@ def combine(items: list, other: list, threshold: int):
             result += combine(rest, new, threshold)
     return result
 
+# New combination algorithm
+def combine2(items: list, predicate: callable) -> list:
+    for item in items:
+        yield combine2()
 
 # Fetches portion of meal from kitchen
 def fetch(items: list) -> list:
-    combinations = combine(items, list(), 100)
+    combinations = combine(items, list(), threshold)
     combinations.sort(key=lambda x: calories(x), reverse=True)
     combination = (lambda x: x[0] if x else None)(combinations)
     for item in combination:
@@ -84,10 +107,13 @@ while True:
         print("Ok, bye!")
         break
 
+    start = time.time()
     eat = fetch(products)
+    end = time.time()
 
     if eat is not None:
         print("You ate: ", eat)
         print("Total calories: ", calories(eat))
+        print("Time: ", str(end - start))
 
     print("")
