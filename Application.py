@@ -78,6 +78,7 @@ def fetch(items: list) -> list:
 while True:
     if len(products) == 0:
         print("The kitchen is empty. Nothing more to eat. Bye!")
+        break
 
     print("Food on a kitchen: ", products)
 
