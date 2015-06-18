@@ -1,3 +1,4 @@
+# Class that represents food object
 class Product(object):
     def __init__(self, name, calories):
         self.__name = name
@@ -15,59 +16,81 @@ class Product(object):
     def __repr__(self):
         return self.__str__()
 
-    def __add__(self, other):
-        return Products(self, other)
+
+# Maximum calories per eating
+threshold = 100
+
+# Available meal on a kitchen
+products = [
+    Product("Beer", 31), Product("Chocolate", 45),
+    Product("Wine", 11), Product("Pizza", 55),
+    Product("Sushi", 54), Product("Tea", 10),
+    Product("Cake", 35), Product("Ice", 63),
+    Product("Orange", 5), Product("Snickers", 80),
+    Product("Meat", 89), Product("Apple", 42),
+    Product("Orange", 5), Product("Snickers", 80),
+    Product("Meat", 89), Product("Apple", 42),
+    Product("Cherry", 38), Product("Cheese", 29),
+    Product("Water", 1), Product("Bread", 42)
+]
 
 
-class Products(object):
-    def __init__(self, *source):
-        self.__list = list(source)
-
-    def __add__(self, other):
-        new = Products(*self.__list)
-        new += other
-        return new
-
-    def __iadd__(self, other):
-        self.__list.append(other)
-        return self
-
-    def calories(self):
-        return sum(map(lambda x: x.calories(), self.__list))
-
-    def length(self):
-        return len(self.__list)
-
-    def __str__(self):
-        return "(List of %d products with sum of %d calories)" % (self.length(), self.calories())
-
-    def __repr__(self):
-        return self.__str__()
-
-    def __iter__(self):
-        for i in self.__list:
-            yield i
-
-    def __getitem__(self, item):
-        return self.__list.__getitem__(item)
-
-    def __cmp__(self, other):
-        return self.calories() - other.calories()
-
-    def __len__(self):
-        return self.length()
-
-    def pop(self, i):
-        return self.__list.pop(i)
+# Copy list to other list excepting object
+def ignore(items: list, i) -> list:
+    return list(item for item in items if i != item)
 
 
-products = Product("Beer", 31) + Product("Chocolate", 45) + \
-           Product("Wine", 11) + Product("Pizza", 55) + \
-           Product("Sushi", 54) + Product("Tea", 10) + \
-           Product("Cake", 35) + Product("Ice", 63) + \
-           Product("Orange", 5) + Product("Snickers", 80)
+# Count calories in food list
+def calories(items: list) -> int:
+    return sum(map(lambda x: x.calories(), items))
 
 
-copy = products[::]
+# Generates combinations of available food
+def combine(items: list, other: list, threshold: int):
+    result = list()
 
-print(copy)
+    if len(items) == 0:
+        result.append(other)
+
+    for char in items:
+        rest = ignore(items, char)
+        new = other + list([char])
+        if calories(new) > threshold:
+            result.append(other)
+            return result
+        else:
+            result += combine(rest, new, threshold)
+
+    return result
+
+
+# Fetches portion of meal from kitchen
+def fetch(items: list) -> list:
+    combinations = combine(items, list(), 100)
+    combinations.sort(key=lambda x: calories(x), reverse=True)
+    combination = (lambda x: x[0] if x else None)(combinations)
+    for item in combination:
+        items.remove(item)
+    return combination
+
+
+# Business logic
+while True:
+    if len(products) == 0:
+        print("The kitchen is empty. Nothing more to eat. Bye!")
+
+    print("Food on a kitchen: ", products)
+
+    ans = input("Do you want some food? (y/n)").lower()
+
+    if ans == "n":
+        print("Ok, bye!")
+        break
+
+    eat = fetch(products)
+
+    if eat is not None:
+        print("You ate: ", eat)
+        print("Total calories: ", calories(eat))
+
+    print("")
