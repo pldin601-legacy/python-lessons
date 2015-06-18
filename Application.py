@@ -19,7 +19,6 @@ class Product(object):
     def __repr__(self):
         return self.__str__()
 
-
 # Maximum calories per eating
 threshold = 100
 
@@ -28,29 +27,23 @@ products = [
     Product("Beer", 31), Product("Chocolate", 45),
     Product("Wine", 11), Product("Pizza", 55),
     Product("Sushi", 54), Product("Tea", 10),
-    # Product("Cake", 35), Product("Ice", 63),
-    # Product("Orange", 5), Product("Snickers", 80),
-    # Product("Meat", 89), Product("Apple", 42),
-    # Product("Orange", 5), Product("Snickers", 80),
-    # Product("Meat", 89), Product("Apple", 42),
-    # Product("Cherry", 38), Product("Cheese", 29),
-    # Product("Wine", 11), Product("Pizza", 55),
-    # Product("Sushi", 54), Product("Tea", 10),
-    # Product("Cake", 35), Product("Ice", 63),
-    # Product("Orange", 5), Product("Snickers", 80),
-    # Product("Meat", 89), Product("Apple", 42),
-    # Product("Orange", 5), Product("Snickers", 80),
-    # Product("Meat", 89), Product("Apple", 42),
-    # Product("Cherry", 38), Product("Cheese", 29),
-    # Product("Wine", 11), Product("Pizza", 55),
-    # Product("Sushi", 54), Product("Tea", 10),
-    # Product("Cake", 35), Product("Ice", 63),
-    # Product("Orange", 5), Product("Snickers", 80),
-    # Product("Meat", 89), Product("Apple", 42),
-    # Product("Orange", 5), Product("Snickers", 80),
-    # Product("Meat", 89), Product("Apple", 42),
-    # Product("Cherry", 38), Product("Cheese", 29),
-    # Product("Water", 1), Product("Bread", 42)
+    Product("Cake", 35), Product("Ice", 63),
+    Product("Orange", 5), Product("Snickers", 80),
+    Product("Meat", 89), Product("Apple", 42),
+    Product("Orange", 5), Product("Snickers", 80),
+    Product("Meat", 89), Product("Apple", 42),
+    Product("Cherry", 38), Product("Cheese", 29),
+    Product("Wine", 11), Product("Pizza", 55),
+    Product("Sushi", 54), Product("Tea", 10),
+    Product("Cake", 35), Product("Ice", 63),
+    Product("Orange", 5), Product("Snickers", 80),
+    Product("Meat", 89), Product("Apple", 42),
+    Product("Orange", 5), Product("Snickers", 80),
+    Product("Meat", 89), Product("Apple", 42),
+    Product("Orange", 5), Product("Snickers", 80),
+    Product("Meat", 89), Product("Apple", 42),
+    Product("Cherry", 38), Product("Cheese", 29),
+    Product("Water", 1), Product("Bread", 42)
 ]
 
 
@@ -78,10 +71,20 @@ def combine(items: list, other: list, threshold: int):
             result += combine(rest, new, threshold)
     return result
 
+
 # New combination algorithm
 def combine2(items: list, predicate: callable) -> list:
-    for item in items:
-        yield combine2()
+    if len(items) == 1:
+        yield items
+
+    for i, item in enumerate(items):
+        # yield list([item])
+        rest = ignore(items, item)
+        for combos in combine2(rest, predicate):
+            new = combos + list([item])
+            if predicate(new) is True:
+                yield new
+
 
 # Fetches portion of meal from kitchen
 def fetch(items: list) -> list:
