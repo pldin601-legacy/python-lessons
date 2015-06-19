@@ -1,20 +1,12 @@
 __author__ = 'roman'
 
 
-def sub(a, b):
-    return a - b
-
-
-def add(a, b):
-    return a + b
-
-
 def enc():
     init = 0
 
     def inner(number: int):
         nonlocal init
-        s = sub(number, init)
+        s = number - init
         init = number
         return s
     return inner
@@ -25,7 +17,7 @@ def dec():
 
     def inner(number: int):
         nonlocal init
-        init = add(number, init)
+        init += number
         return init
     return inner
 
