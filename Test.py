@@ -1,17 +1,29 @@
 __author__ = 'Roman'
 
+import math
+import time
+
 
 def is_factor(number: int):
     return lambda factor: number % factor == 0
 
+
 def factors(number: int):
+    f = list(filter(is_factor(number), range(1, int(math.sqrt(number)) + 1)))
+    return sorted(f + list(map(lambda x: int(number / x), f)))
+
+
+def factors_old(number: int):
     return list(filter(is_factor(number), range(1, number + 1)))
+
 
 def num_factors(number: int):
     return len(factors(number))
 
+
 def is_simple(number: int) -> bool:
     return num_factors(number) == 2
+
 
 def simple(limit: int):
     return list(filter(is_simple, range(1, limit + 1)))
@@ -35,5 +47,10 @@ def dec(value: int) -> int:
 def simple_after(number: int):
     return next_simple(number + 1, is_simple, inc)
 
+start = time.clock()
+print(factors_old(10000000))
+print("Time", time.clock() - start)
 
-print(simple_after(531))
+start = time.clock()
+print(factors(10000000))
+print("Time", time.clock() - start)
