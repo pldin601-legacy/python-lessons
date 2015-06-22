@@ -1,7 +1,6 @@
 __author__ = 'Roman'
 
 import math
-import time
 
 
 def is_factor(number: int):
@@ -29,6 +28,10 @@ def simple(limit: int):
     return list(filter(is_simple, range(1, limit + 1)))
 
 
+def last_simple(number: int):
+    return simple(number)[-1]
+
+
 def next_simple(initial, predicate, calculate):
     while True:
         if predicate(initial) is True:
@@ -47,10 +50,11 @@ def dec(value: int) -> int:
 def simple_after(number: int):
     return next_simple(number + 1, is_simple, inc)
 
-start = time.clock()
-print(factors_old(10000000))
-print("Time", time.clock() - start)
 
-start = time.clock()
-print(factors(10000000))
-print("Time", time.clock() - start)
+def split(number: int) -> list:
+    while number > 0:
+        s = last_simple(number)
+        number -= s
+        yield s
+
+
