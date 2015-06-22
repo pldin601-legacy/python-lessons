@@ -27,7 +27,7 @@ def calc_mutual_fractions(*n: int):
     def intersect(x, y):
         return x & y
 
-    return sorted(reduce(intersect, map(calculate_fractions, n)))
+    return reduce(intersect, map(calculate_fractions, n))
 
 
 print(calc_mutual_fractions(128, 256))
