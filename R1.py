@@ -12,11 +12,12 @@ def F(*b):
 
 def func(L):
         if len(L) == 1:
-                return L
+                return L[0]
 
-        q = len(L)-1
-        x = list(set(L[q]) & set(L[q-1]))
-        return func(L[:-2]+[x])
+        head = L[0]
+        tail = L[1:]
+
+        return head & func(tail)
 
 
 print(func(F(1024, 2048)))
