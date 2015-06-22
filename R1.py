@@ -11,10 +11,7 @@ def f(a):
 
 
 def F(*b):
-        L = []
-        for x in b:
-                L += [f(x)]
-        return L
+    return [f(x) for x in b]
 
 
 def func(L):
