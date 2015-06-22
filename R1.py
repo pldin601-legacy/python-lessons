@@ -2,16 +2,12 @@ __author__ = 'rostik'
 
 
 def f(a):
-        m = []
-        div = list(range(1, a + 1))
-        for x in div:
-                if a % x == 0:
-                        m += [x]
-        return m
+    r = range(1, a + 1)
+    return set(x for x in r if a % x == 0)
 
 
 def F(*b):
-    return [f(x) for x in b]
+    return list(f(x) for x in b)
 
 
 def func(L):
