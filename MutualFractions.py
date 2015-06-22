@@ -3,9 +3,9 @@ __author__ = 'Roman'
 import math
 
 
-def reduce(fn, coll):
+def reduce(fn, coll, init=None):
     tmp = iter(coll)
-    value = next(tmp)
+    value = next(tmp) if init is None else init
     for v in tmp:
         value = fn(value, v)
     return value
@@ -30,4 +30,4 @@ def calc_mutual_fractions(*n: int):
     return reduce(intersect, map(calculate_fractions, n))
 
 
-print(calc_mutual_fractions(128, 256))
+print(calc_mutual_fractions(1024, 2048))
