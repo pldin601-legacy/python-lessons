@@ -15,7 +15,8 @@ def func(L):
                 return L
 
         q = len(L)-1
-        x=list(set(L[q])&set(L[q-1]))
+        x = list(set(L[q]) & set(L[q-1]))
         return func(L[:-2]+[x])
+
 
 print(func(F(1024, 2048)))
