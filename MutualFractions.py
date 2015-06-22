@@ -3,7 +3,7 @@ __author__ = 'Roman'
 import math
 
 
-def reduce(fn, coll, init=None):
+def reduce(fn: callable, coll: [], init=None) -> []:
     tmp = iter(coll)
     value = next(tmp) if init is None else init
     for v in tmp:
@@ -12,10 +12,10 @@ def reduce(fn, coll, init=None):
 
 
 def calculate_fractions(number: int):
-    def is_fraction(n: int):
+    def is_fraction(n: int) -> bool:
         return number % n == 0
 
-    def divide(n: int):
+    def divide(n: int) -> int:
         return int(number / n)
 
     tmp = list(filter(is_fraction, range(1, int(math.sqrt(number)) + 1)))
@@ -23,8 +23,8 @@ def calculate_fractions(number: int):
     return set(tmp + list(map(divide, tmp)))
 
 
-def calc_mutual_fractions(*n: int):
-    def intersect(x, y):
+def calc_mutual_fractions(*n: int) -> set:
+    def intersect(x: set, y: set) -> set:
         return x & y
 
     return reduce(intersect, map(calculate_fractions, n))
