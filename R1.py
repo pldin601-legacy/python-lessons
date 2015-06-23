@@ -18,14 +18,16 @@ def func(L):
 
         head = L[0]
         tail = L[1:]
+        for t in tail:
+            head = head & t
 
-        return head & func(tail)
+        return head
 
 
 counter = 0
 start = time.clock()
 while time.clock() - start < 5:
-    func(F(1024, 2048))
+    func(F(1024, 2048, 512, 323767, 128))
     counter += 1
 
 print(counter)
