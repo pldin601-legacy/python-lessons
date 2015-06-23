@@ -19,7 +19,7 @@ def calculate_fractions(number: int):
     def divide(n: int) -> int:
         return int(number / n)
 
-    tmp = list(filter(is_fraction, range(1, int(math.sqrt(number)) + 1, 2)))
+    tmp = list(filter(is_fraction, range(1, int(math.sqrt(number)) + 1)))
 
     return set(tmp + list(map(divide, tmp)))
 
@@ -37,5 +37,6 @@ while time.clock() - start < 5:
     calc_mutual_fractions(1024, 2048)
     counter += 1
 
+print(calc_mutual_fractions(1024, 2048))
 print(counter)
 
