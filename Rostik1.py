@@ -22,10 +22,12 @@ def func(L):
 	x=list(set(L[q])&set(L[q-1]))
 	return func(L[:-2]+[x])
 
-counter = 0
-start = time.clock()
-while time.clock() - start < 5:
-    func(F(1024, 2048))
-    counter += 1
+# counter = 0
+# start = time.clock()
+# while time.clock() - start < 5:
+#     func(F(1024, 2048))
+#     counter += 1
+#
+# print(counter)
 
-print(counter)
+print(f(100))
