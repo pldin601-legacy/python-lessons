@@ -1,6 +1,7 @@
 __author__ = 'Roman'
 
 import math
+import time
 
 
 def reduce(fn: callable, coll: [], init=None) -> []:
@@ -18,7 +19,7 @@ def calculate_fractions(number: int):
     def divide(n: int) -> int:
         return int(number / n)
 
-    tmp = list(filter(is_fraction, range(1, int(math.sqrt(number)) + 1)))
+    tmp = list(filter(is_fraction, range(1, int(math.sqrt(number)) + 1, 2)))
 
     return set(tmp + list(map(divide, tmp)))
 
@@ -30,4 +31,11 @@ def calc_mutual_fractions(*n: int) -> set:
     return reduce(intersect, map(calculate_fractions, n))
 
 
-print(calc_mutual_fractions(1024, 2048))
+counter = 0
+start = time.clock()
+while time.clock() - start < 5:
+    calc_mutual_fractions(1024, 2048)
+    counter += 1
+
+print(counter)
+

@@ -1,5 +1,7 @@
 __author__ = 'rostik'
 
+import time
+
 
 def f(a):
     r = range(1, a + 1)
@@ -20,4 +22,10 @@ def func(L):
         return head & func(tail)
 
 
-print(func(F(1024, 2048)))
+counter = 0
+start = time.clock()
+while time.clock() - start < 5:
+    func(F(1024, 2048))
+    counter += 1
+
+print(counter)
