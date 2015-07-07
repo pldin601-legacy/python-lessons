@@ -9,11 +9,10 @@ def magic(arr_items, length):
     obj_size = len(arr_items)
     depth = obj_size ** length
     for el in range(0, depth):
-        n = el
         acc = list()
         for j in range(0, length):
-            acc.append(arr_items[n % obj_size])
-            n = int(n / obj_size)
+            acc.append(arr_items[el % obj_size])
+            el = int(el / obj_size)
         yield acc
 
 
