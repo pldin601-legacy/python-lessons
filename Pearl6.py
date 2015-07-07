@@ -1,33 +1,33 @@
 __author__ = 'roman'
 
 
-from functools import reduce
-
-
-def sum(x, y):
-    return x + y
-
-
-def prod(x, y):
-    return x * y
-
-
-def merge(x, y):
-    return 10 * x + y
-
-
-def eval(arrItems, arrOps):
-    if len(arrItems) - len(arrOps) != 1:
+def represent(arr_items, arr_ops):
+    if len(arr_items) - len(list(arr_ops)) != 1:
         raise ArithmeticError
-    init = arrItems[0]
-    for i, el in enumerate(arrItems[1:]):
-        init = arrOps[i](init, el)
+    if len(arr_items) == 0:
+        raise ArithmeticError
+    init = str(arr_items[0])
+    for i, el in enumerate(arr_items[1:]):
+        init = init + arr_ops[i] + str(el)
     return init
 
 
-array = [1, 2, 3, 4, 5]
+def magic(arr_items, length):
+    obj_size = len(arr_items)
+    depth = obj_size ** length
+    for el in range(0, depth):
+        n = el
+        acc = list()
+        for j in range(0, length):
+            acc.append(arr_items[n % obj_size])
+            n = int(n / obj_size)
+        yield acc
 
-action = [sum, prod, merge]
 
-# print(eval(array, action))
+array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 
+actions = [" + ", "*", ""]
+
+for op in magic(actions, len(array) - 1):
+    if eval(represent(array, op)) == 101:
+        print(represent(array, op))
