@@ -18,7 +18,7 @@ def magic(arr_items, length):
 
 array = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
 
-actions = [" + ", "*", ""]
+actions = [" + ", "*", " - ", ""]
 
 for op in magic(actions, len(array) - 1):
     if eval(represent(array, op)) == 101:
