@@ -2,14 +2,7 @@ __author__ = 'roman'
 
 
 def represent(arr_items, arr_ops):
-    if len(arr_items) - len(list(arr_ops)) != 1:
-        raise ArithmeticError
-    if len(arr_items) == 0:
-        raise ArithmeticError
-    init = str(arr_items[0])
-    for i, el in enumerate(arr_items[1:]):
-        init = init + arr_ops[i] + str(el)
-    return init
+    return "".join([str(a) + b for a, b in zip(arr_items, arr_ops + [""])])
 
 
 def magic(arr_items, length):
