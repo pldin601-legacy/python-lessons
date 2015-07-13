@@ -11,10 +11,10 @@ def partition(num):
 def match_pairs(coll, comp):
     if len(coll) < 2:
         return True
-    elif comp(coll[0], coll[1]):
-        return match_pairs(coll[1::], comp)
-    else:
-        return False
+    for a in range(len(coll) - 1):
+        if not comp(coll[a], coll[a + 1]):
+            return False
+    return True
 
 
 def compare(x, y):
