@@ -2,8 +2,7 @@ __author__ = 'roman'
 
 
 def partition(num):
-    return list(filter(lambda v: match_pairs(v, lambda x, y: x < y),
-                       [[num]] + [[x] + y for x in range(1, num) for y in partition(num - x)]))
+    return [[num]] + [[x] + y for x in range(1, num) for y in partition(num - x)]
 
 
 def match_pairs(coll, comp):
@@ -15,4 +14,14 @@ def match_pairs(coll, comp):
         return False
 
 
-print(partition(10))
+def compare(x, y):
+    return x < y
+
+
+def find_trees(num):
+    for t in partition(num):
+        if match_pairs(t, compare):
+            print(t)
+
+
+find_trees(10)
