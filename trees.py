@@ -2,7 +2,10 @@ __author__ = 'roman'
 
 
 def partition(num):
-    return [[num]] + [[x] + y for x in range(1, num) for y in partition(num - x)]
+    yield [num]
+    for x in range(1, num):
+        for y in partition(num - x):
+            yield [x] + y
 
 
 def match_pairs(coll, comp):
