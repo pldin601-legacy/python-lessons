@@ -15,4 +15,4 @@ def match_pairs(coll, comp):
         return False
 
 
-print(partition(10))
+print(len(partition(10)))
