@@ -17,9 +17,13 @@ def match_pairs(coll):
     return True
 
 
+def match_alt(coll):
+    return all(x < y for x, y in zip(coll, coll[1::]))
+
+
 def find_trees(num):
     for t in partition(num):
-        if match_pairs(t):
+        if match_alt(t):
             print(t)
 
 
